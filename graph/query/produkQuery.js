@@ -1,6 +1,6 @@
 var graphql = require('graphql');
 var produkType = require('../type/produkType');
-var Model = require('../../models/produkModel');
+var Model = require('../../models/produkmodel');
 
 var dummy = [{
   'sku': '434j432',

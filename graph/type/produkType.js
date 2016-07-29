@@ -1,5 +1,5 @@
 var graphql = require('graphql');
-var Model = require('../../models/produkModel');
+var Model = require('../../models/produkmodel');
 
 var nestedProduk = new graphql.GraphQLObjectType({
   name: 'nestedProduk',
