@@ -99,8 +99,19 @@ module.exports.keranjangQuery = {
     }
   },
   resolve(_, args) {
-    return Model.main.find({
-      'idUser': args.idUser
+    return new Promise((resolve, rejected) => {
+      Model.main.find({
+        'idUser': args.idUser
+      }, (err, data) => {
+        if (err)
+          rejected({
+            "error": true,
+            "message": err
+          })
+        else
+          resolve(data)
+      })
+
     })
   }
 };

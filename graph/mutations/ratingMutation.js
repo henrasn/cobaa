@@ -48,8 +48,39 @@ var dataQuery = require('../../dataQuery/ratingDataQuery');
   }
 })*/
 
+var updateType = new graphql.GraphQLObjectType({
+  name: 'ratingUpdate',
+  fields: {
+    ok: {
+      type: graphql.GraphQLInt
+    },
+    n: {
+      type: graphql.GraphQLInt
+    },
+    nModified: {
+      type: graphql.GraphQLInt
+    }
+  }
+})
+
+var resolveType = (data) => {
+  console.log({
+    "data": data
+  });
+  if (data.nModified)
+    return updateType
+  else
+    return ratingType
+}
+
+var resultType = new graphql.GraphQLUnionType({
+  name: 'resultRatingType',
+  types: [updateType, ratingType],
+  resolveType: resolveType
+})
+
 module.exports = {
-  type: ratingType,
+  type: resultType,
   args: ratingInput,
   resolve: (_, args) => {
     // console.log(args);
@@ -64,19 +95,24 @@ module.exports = {
         // console.log(data);
         if (data[0] == null) {
           console.log("data doesn't exist");
-          dataQuery.addDoesntExist(args, (err) => {
+          dataQuery.addDoesntExist(args, (err, body) => {
+            console.log({
+              "br": body
+            });
             if (err)
               rejected(err)
             else
-              resolve(args)
+              resolve(body)
           })
         } else {
           console.log("data exist");
-          dataQuery.addExist(args, (err) => {
+          dataQuery.addExist(args, (err, body) => {
+            console.log(err);
+            console.log(body);
             if (err)
               rejected(err)
             else
-              resolve(args)
+              resolve(body)
           })
         }
       })

@@ -1,11 +1,11 @@
 var graphql = require('graphql');
-var keranjangType = require('../type/keranjangType');
-var keranjangInput = require('../type/keranjangTypeInput');
-var Model = require('../../models/keranjangModel');
-var keranjangDataQuery = require('../../dataQuery/keranjangDataQuery');
+var wishlistType = require('../type/wishlistType');
+var wishlistModel = require('../../models/wishlistModel');
+var wishlistTypeInput = require('../type/wishlistTypeInput');
+var wishlistDataQuery = require('../../dataQuery/wishlistDataQuery');
 
-var keranjangUpdated = new graphql.GraphQLObjectType({
-  name: 'keranjangUpdated',
+var wishlistUpdate = new graphql.GraphQLObjectType({
+  name: 'wishlistUpdate',
   fields: {
     ok: {
       type: graphql.GraphQLInt
@@ -21,39 +21,38 @@ var keranjangUpdated = new graphql.GraphQLObjectType({
 
 var resolveType = (data) => {
   if (data.nModified)
-    return keranjangUpdated;
+    return wishlistUpdate;
   else
-    return keranjangType;
+    return wishlistType;
 }
 
 var resultType = new graphql.GraphQLUnionType({
-  name: 'resultType',
-  types: [keranjangUpdated, keranjangType],
+  name: 'wishlistResultType',
+  types: [wishlistUpdate, wishlistType],
   resolveType: resolveType
 })
 
 module.exports.add = {
   type: resultType,
-  args: keranjangInput,
+  args: wishlistTypeInput,
   resolve(_, args) {
     return new Promise((resolve, rejected) => {
-      Model.main.find({
+      wishlistModel.find({
         'idUser': args.idUser
       }, {
         '_id': 0,
         '__v': 0,
-        'produks': 0
       }, (err, data) => {
         console.log(data);
         if (data[0] == null) {
-          keranjangDataQuery.addDoesntExist(args, (err, body) => {
+          wishlistDataQuery.addDoesntExist(args, (err, body) => {
             if (err)
               rejected(err)
             else
               resolve(body)
           })
         } else {
-          keranjangDataQuery.addExist(args, (err, body) => {
+          wishlistDataQuery.addExist(args, (err, body) => {
             console.log(body);
             if (err)
               rejected(err)
@@ -80,7 +79,7 @@ module.exports.delete = {
   },
   resolve(_, args) {
     return new Promise((resolve, rejected) => {
-      keranjangDataQuery.delKeranjang(args, (err, body) => {
+      wishlistDataQuery.delWishlist(args, (err, body) => {
         if (err)
           rejected(err)
         else if (body.nModified == 0)

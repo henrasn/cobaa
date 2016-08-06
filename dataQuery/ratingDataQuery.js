@@ -11,8 +11,11 @@ module.exports.addDoesntExist = (obj, callback) => {
     }]
   })
 
-  newModel.save((err) => {
-    callback(err)
+  newModel.save((err, body) => {
+    console.log({
+      "de": body
+    });
+    callback(err, body)
   })
 }
 
@@ -29,7 +32,7 @@ module.exports.addExist = (obj, callback) => {
     $addToSet: {
       ratings: newNested
     }
-  }, (err) => {
-    callback(err)
+  }, (err, body) => {
+    callback(err, body)
   })
 }

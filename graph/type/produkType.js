@@ -26,6 +26,9 @@ module.exports = new graphql.GraphQLObjectType({
   name: 'produkType',
   fields: () => {
     return {
+      id: {
+        type: graphql.GraphQLString
+      },
       sku: {
         type: graphql.GraphQLString
       },

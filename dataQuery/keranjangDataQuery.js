@@ -10,8 +10,8 @@ module.exports.addDoesntExist = (obj, callback) => {
     }
   })
 
-  newModel.save((err) => {
-    callback(err)
+  newModel.save((err, body) => {
+    callback(err, body)
   })
 }
 
@@ -28,8 +28,8 @@ module.exports.addExist = (obj, callback) => {
     $addToSet: {
       produks: newModel
     }
-  }, (err) => {
-    callback(err)
+  }, (err, body) => {
+    callback(err, body)
   })
 }
 
@@ -42,7 +42,8 @@ module.exports.delKeranjang = (obj, callback) => {
         idProduk: obj.idProduk
       }
     }
-  }, (err) => {
-    callback(err)
+  }, (err, body) => {
+    console.log(body);
+    callback(err, body)
   })
 }

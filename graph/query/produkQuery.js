@@ -2,14 +2,6 @@ var graphql = require('graphql');
 var produkType = require('../type/produkType');
 var Model = require('../../models/produkmodel');
 
-var dummy = [{
-  'sku': '434j432',
-  'name': 'name deui',
-  'des': 'desssss',
-  'price': 231412,
-  'image': 'dasdas'
-}]
-
 var produkQuery = new graphql.GraphQLObjectType({
   name: 'queryProduk',
   fields: () => {
@@ -17,16 +9,61 @@ var produkQuery = new graphql.GraphQLObjectType({
       produk: {
         type: new graphql.GraphQLList(produkType),
         resolve: () => {
-          return Model.find();
+          return new Promise((resolve, rejected) => {
+            Model.find((err, data) => {
+              if (err)
+                rejected({
+                  "error": true,
+                  "message": err
+                })
+              else
+                resolve(data)
+            });
+          })
         }
       }
     }
   }
 })
 
-module.exports = {
+module.exports.all = {
   type: new graphql.GraphQLList(produkType),
   resolve: () => {
-    return Model.find();
+    return new Promise((resolve, rejected) => {
+      Model.find((err, data) => {
+        if (err)
+          rejected({
+            "error": true,
+            "message": err
+          })
+        else
+          resolve(data)
+      });
+    })
+  }
+}
+
+module.exports.detail = {
+  type: new graphql.GraphQLList(produkType),
+  args: {
+    idProduk: {
+      type: graphql.GraphQLString,
+      name: 'idProduk'
+    }
+  },
+  resolve(_, args) {
+    return new Promise((resolve, rejected) => {
+      Model.find({
+        'id': args.idProduk
+      }, (err, data) => {
+        if (err)
+        rejected({
+          "error": true,
+          "message": err
+        })
+        else
+          resolve(data)
+      })
+    })
   }
 }

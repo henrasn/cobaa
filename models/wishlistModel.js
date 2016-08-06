@@ -3,12 +3,7 @@ var Schema = mongoose.Schema;
 
 var model = new Schema({
   idUser: String,
-  wishlists: [{
-    gambar: String,
-    namaBarang: String,
-    harga: Number,
-    diskon: Number
-  }]
+  produks: [String]
 })
 
-module.exports.main = mongoose.model('wishlist', model, 'wishlist')
+module.exports = mongoose.model('wishlist', model, 'wishlist')
