@@ -20,7 +20,8 @@ var wishlistUpdate = new graphql.GraphQLObjectType({
 })
 
 var resolveType = (data) => {
-  if (data.nModified)
+  console.log(data);
+  if (data.nModified > 0)
     return wishlistUpdate;
   else
     return wishlistType;
@@ -45,6 +46,7 @@ module.exports.add = {
       }, (err, data) => {
         console.log(data);
         if (data[0] == null) {
+          console.log("de");
           wishlistDataQuery.addDoesntExist(args, (err, body) => {
             if (err)
               rejected(err)
@@ -52,6 +54,7 @@ module.exports.add = {
               resolve(body)
           })
         } else {
+          console.log("e");
           wishlistDataQuery.addExist(args, (err, body) => {
             console.log(body);
             if (err)

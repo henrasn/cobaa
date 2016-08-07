@@ -1,4 +1,5 @@
 var Model = require('../models/wishlistModel');
+var faker = require('faker');
 
 module.exports.addDoesntExist = (obj, callback) => {
   var newModel = new Model({
@@ -12,12 +13,13 @@ module.exports.addDoesntExist = (obj, callback) => {
 }
 
 module.exports.addExist = (obj, callback) => {
-  console.log(obj.idProduk[0]);
+  console.log(obj.idProduk);
+  console.log(obj.idUser);
   Model.update({
     'idUser': obj.idUser
   }, {
     $addToSet: {
-      produks: obj.idProduk[0]
+      produks: faker.random.number(999999)
     }
   }, (err, body) => {
     callback(err, body)
