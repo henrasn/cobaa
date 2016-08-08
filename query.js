@@ -29,7 +29,7 @@ module.exports.detailProduk = (req, res) => {
 module.exports.keranjang = (req, res) => {
   graphql.graphql(Schema, keranjangQuery).then((result) => {
     console.log(result);
-    res.json(JSON.parse(JSON.parse(result)))
+    res.json(JSON.parse(JSON.stringify(result)))
   })
 }
 
