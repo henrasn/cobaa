@@ -3,7 +3,7 @@ var graphHTTP = require('express-graphql');
 var graphql = require('graphql');
 var mongoose = require('mongoose');
 var Schema = require('./graph');
-var test = require('./test');
+var routers = require('./router');
 // var Model = require('./models/ratingModel').main;
 
 // var query = 'query{showSingleData(id:1234){completed,title}}';
@@ -11,16 +11,16 @@ var test = require('./test');
 var querys = '{rating(idProduk:"2"){idProduk,ratings{comment,rate,user}}}';
 
 var port = process.env.PORT || 3001;
-// mongoose.connect('mongodb://dbrest:restdatabase@ds031965.mlab.com:31965/dbscript');
-mongoose.connect('mongodb://127.0.0.1:27017/produk');
+mongoose.connect('mongodb://dbrest:restdatabase@ds031965.mlab.com:31965/dbscript');
+// mongoose.connect('mongodb://127.0.0.1:27017/produk');
 // mongoose.connect('mongodb://127.0.0.1:27017/datagraph');
 
 // graphql.graphql(Schema, querys).then((result) => {
 //   console.log(JSON.stringify(result));
 // });
-var routers = express.Router();
-routers.route('/wishlist')
-  .get(test)
+// var routers = express.Router();
+// routers.route('/wishlist')
+//   .get(test)
 
 var app = express()
   // .use('/', graphHTTP({
