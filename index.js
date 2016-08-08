@@ -22,7 +22,7 @@ var app = express()
   .use('/', graphHTTP({
     schema: Schema,
     pretty: true,
-    graphiql: true
+    // graphiql: true
   }))
   .listen(port, (err) => {
     if (err) {
