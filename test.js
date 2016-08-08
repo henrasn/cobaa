@@ -1,7 +1,7 @@
 var graphql = require('graphql');
 var Schema = require('./graph');
 
-var querys = '{rating(idProduk:"2"){idProduk,ratings{comment,rate,user}}}';
+var querys = '{rating(idProduk:"27142"){idProduk,ratings{comment,rate,user}}}';
 
 // graphql.graphql(Schema, query).then((result) => {}
 
